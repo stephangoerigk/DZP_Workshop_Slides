@@ -75,6 +75,58 @@ class: top, left
 
 #### Gold-Standard Wirksamkeitsanalyse (Efficacy)
 
+
+
+.pull-left[
+&lt;img src="Folien_files/figure-html/unnamed-chunk-3-1.png" width="400px" /&gt;
+]
+
+.pull-right[
+
+```r
+lmer(y ~ t * group + (1|id), data = df)
+```
+
+* Modellierung im linear mixed model (LMM)
+
+* hierarchische Datenstruktur berücksichtigt (measurements nested within patients)
+
+* Schätzung einer Durschnittsrate (Slope) für die Response der Gruppen
+
+* Wirksamkeitsnachweis i.d.R. definiert durch Differenz in Gruppenslopes bis Endpunkt
+(Zeit x Gruppe Interaktion)
+]
+
+---
+class: top, left
+### Parallelgruppen-Design
+
+#### Gold-Standard Wirksamkeitsanalyse (Efficacy)
+
+
+```r
+lmer(y ~ t * group + (1|id), data = df)
+```
+
+
+```
+##                Estimate Std. Error       df t value Pr(&gt;|t|)
+## (Intercept)      29.023      1.001  197.251  29.005    0.000
+## t                -1.368      0.067 1348.000 -20.464    0.000
+## groupplacebo     -4.340      1.415  197.251  -3.067    0.002
+## t:groupplacebo    1.440      0.095 1348.000  15.241    0.000
+```
+
+* signifikante Überlegenheit der aktiven gegenüber Placebogruppe
+
+* ABER: nur auf Gruppenebene (nicht alle Patienten zeigen ein Theraieansprechen)
+
+**Vorsicht bei der Interpretation:**
+
+* i.d.R. heterogene Therapieresponse
+
+`\(\rightarrow\)` Aufschlüsselung der Heterogenität Zielsetzung des **Präzisionsansatzes**
+
 ---
 class: top, left
 ### Parallelgruppen-Design 
@@ -91,19 +143,37 @@ class: top, left
 
 #### Marker für Behandlungserfolg - Klassische Explanative Ansätze der Responderanalyse
 
+.pull-left[
 .center[
 &lt;img src="bilder/mod1.png" width="400px" /&gt;
 ]
 
-.pull-left[
 .center[
 &lt;img src="bilder/Moderation.png" width="400px" /&gt;
 ]
 ]
+
 .pull-right[
-.center[
-&lt;img src="bilder/Mediation.png" width="400px" /&gt;
+
+**Ansatz: **
+
+* assoziative Responderanalyse
+
+* hohe Zahl von Moderationskandidaten unterschiedlicher Modalitäten (Verhalten, Biomarker...)
+
+**ABER:**
+
+* bislang wenig Anhaltpunkte für stratifizierte Behandlungsplanung
+
+* wenig Replikation von Ergebnissen
 ]
+
+.center[
+
+```r
+lmer(y ~ t * group * moderator + (1|id), data = df)
+glm(response ~ group * moderator, data = df, family = binomial)
+```
 ]
 
 ---
@@ -119,8 +189,8 @@ class: top, left
 .center[
 &lt;img src="bilder/mod2.png" width="500px" /&gt;
 ]
-
 ]
+
 .pull-right[
 **Optimierung der Prädiktion:**
 * Hinzunahme von Prädiktoren
@@ -157,7 +227,6 @@ class: top, left
 * Keine objektiven Verhaltensmaße
 
 * Wechselwirkungen auf Symptombasis nicht berücksichtigt
-
 
 ---
 class: top, left
@@ -197,7 +266,38 @@ class: top, left
 class: top, left
 ### Units of Analysis
 
-#### Symptomcluster
+#### Problem 1: Summenwerte
+
+.pull-left[
+.pull-left[
+.center[
+&lt;br&gt;
+&lt;img src="bilder/sum.png" width="200px" /&gt;
+]
+]
+.pull-right[
+.center[
+&lt;br&gt;&lt;br&gt;
+&lt;img src="bilder/gif1.gif" width="800px" /&gt;
+]
+]
+]
+
+.pull-right[
+.center[
+&lt;img src="bilder/item.gif" width="400px" /&gt;
+]
+]
+
+**Problem:**
+* Symptome verbessern sich ggf. mit unterschiedlicher Intensität
+
+* Schlecht ansprechende Symptome maskieren ggf. Verbesserung gut ansprechender Symptome
+---
+class: top, left
+### Units of Analysis
+
+#### Lösungsansatz: Symptomcluster
 
 .pull-left[
 .pull-left[
@@ -246,8 +346,8 @@ head(data_cluster, 2)
 
 ```
 ##   Item1 Item2 Item3 Item4 Item5 Item6 Item7 Item8 Item9 Item10
-## 1  3.44  4.93  3.08  3.79  2.27  1.85  3.49  2.01 -0.61   1.03
-## 2  2.03  2.12  0.96  3.94  2.98  0.97  2.76  2.54  1.01   1.63
+## 1  3.12  3.26  2.71  1.40  2.97  1.79  3.33  0.88  0.94  -1.07
+## 2  2.98  3.27  2.68  1.47  1.54 -0.38  1.95  2.22  1.32   1.07
 ```
 
 Beispielcode:
@@ -269,7 +369,7 @@ pruned = dynamicTreeCut::cutreeDynamic(clust, distM = as.matrix(d), method = "hy
 class: top, left
 ### Units of Analysis
 
-#### Symptomcluster: Beispielstudie
+#### Symptomcluster: Beispielstudie (Goerigk et al., 2021)
 
 .center[
 &lt;img src="bilder/Fig1.png" width="950px" /&gt;
@@ -334,17 +434,15 @@ class: top, left
 ]
 ]
 
-* Wirksamkeitsvergleich und Berechnung von Responderstatus i.d.R. zum Endpunkt der Studie
-
-* Ignorieren frühen/späten Therapieansprechens 
-
-* Keine Berücksichtigung der Dynamik von Subgruppen
+* Wirksamkeitsvergleich und Berechnung von Responderstatus i.d.R. zum **Endpunkt** der Studie
+* Ignorieren **frühen/späten** Therapieansprechens
+* Keine Berücksichtigung der **Dynamik** von Subgruppen
 
 ---
 class: top, left
 ### Units of Analysis
 
-#### Response-Trajektorien: Mixture Modell
+#### Lösungsansatz: Response-Trajektorien im Mixture Modell
 
 .pull-left[
 1-Trajektorien-Ansatz
@@ -372,7 +470,7 @@ Durchschnittstrajektorie
 class: top, left
 ### Units of Analysis
 
-#### Response-Trajektorien: Mixture Modell
+#### Lösungsansatz: Response-Trajektorien im Mixture Modell
 
 
 
@@ -419,7 +517,7 @@ mi = lcmm::hlme(fixed = y ~ 1 + t + I(t^2),
 class: top, left
 ### Units of Analysis
 
-#### Response-Trajektorien: Beispielstudie
+#### Response-Trajektorien: Beispielstudie (Goerigk et al. in prep)
 
 .center[
 &lt;img src="bilder/Figure1_alternate.png" width="1000px" /&gt;
@@ -429,7 +527,7 @@ class: top, left
 class: top, left
 ### Units of Analysis
 
-#### Das Problem zu niedriger Auflösung bei schwankenden Konstrukten
+#### Problem 5: Niedrige zeitliche Auflösung bei schwankenden Konstrukten
 
 .pull-left[
 
@@ -439,7 +537,7 @@ class: top, left
 
 * Zeitfenster vs. Zeitpunkt
 
-Fortschritt:
+**Fortschritt:**
 
 * EMA-Daten und Sensing ermöglichen zeitlich-verdichtete Messungen
 
@@ -452,7 +550,7 @@ Fortschritt:
 ]
 .pull-right[
 .center[
-&lt;img src="Folien_files/figure-html/unnamed-chunk-36-1.png" width="400px" /&gt;
+&lt;img src="Folien_files/figure-html/unnamed-chunk-44-1.png" width="400px" /&gt;
 ]
 ]
 
@@ -460,7 +558,7 @@ Fortschritt:
 class: top, left
 ### Units of Analysis
 
-#### Time-Series Modeling - Dynamic Time Warping
+#### Lösungsansatz: Time-Series Modeling - Dynamic Time Warping
 
 .pull-left[
 .center[
@@ -473,6 +571,22 @@ class: top, left
 &lt;img src="bilder/dtw2.png" width="500px" /&gt;
 ]
 ]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Lösungsansatz: Time-Series Modeling - Dynamic Time Warping
+
+**Vorteile:**
+
+* Time-series clustering Ansatz
+
+* Reduktion der Komplexität hoch-aufgelöster Zeitreihendaten
+
+* Zeitreihen können gruppiert werden, selbst wenn diese nicht in Form und Muster synchron sind (lagged)
+
+* Flexibel modifizierbar, je nach gewünschtem Clustering Algorithmus (Hierachical, Centroid-based...)
 
 ---
 class: top, left
@@ -521,7 +635,27 @@ class: top, left
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
+
+#### Strukturgleichungsmodelle:
+
+.center[
+&lt;img src="bilder/sem.png" width="1000px" /&gt;
+]
+
+---
+class: top, left
+### Multivariate pattern
+
+#### Strukturgleichungsmodelle:
+
+.center[
+&lt;img src="bilder/semm.png" width="900px" /&gt;
+]
+
+---
+class: top, left
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Curve
 
@@ -529,9 +663,13 @@ class: top, left
 &lt;img src="bilder/lgcm.png" width="500px" /&gt;
 ]
 
+* Abbilden des Slopes als latente Variable (mit Varianz -&gt; Random Effekt)
+
+* Kann mit komplexen Messmodellen und multivariaten Analysen kombiniert werden
+
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Curve
 
@@ -560,7 +698,7 @@ Beispielcode:
 ```r
 model &lt;- ' i =~ 1*t1 + 1*t2 + 1*t3 + 1*t4 + 1*t5
            s =~ 0*t1 + 1*t2 + 2*t3 + 3*t4 + 4*t5'
-fit &lt;- growth(model, data = data)
+fit &lt;- lavaan::growth(model, data = data)
 summary(fit)
 ```
 ]
@@ -572,7 +710,7 @@ summary(fit)
 ]
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Mediation
 
@@ -582,7 +720,7 @@ class: top, left
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Mediation
 
@@ -608,7 +746,7 @@ sy ~ b*sm
 ab := a*b
 # total effect
 total := c + (a*b)'
-fit &lt;- sem(model, data = Data)
+fit &lt;- lavaan::sem(model, data = Data)
 ```
 ]
 .pull-right[
@@ -619,7 +757,7 @@ fit &lt;- sem(model, data = Data)
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Cross-lagged panel model
 
@@ -629,7 +767,7 @@ class: top, left
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Cross-lagged panel model
 
@@ -651,7 +789,7 @@ Cog_T2 ~~ Func_T2
 Cog_T1 ~~ Func_T1
 "
 
-fit &lt;-sem(cl_model, missing = "fiml", data = data)
+fit &lt;-lavaan::sem(cl_model, missing = "fiml", data = data)
 summary(fit)
 ```
 ]
@@ -662,17 +800,21 @@ summary(fit)
 ]
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Netzwerkanalyse
 
+.pull-left[
 .center[
 &lt;img src="bilder/network1.png" width="500px" /&gt;
 ]
+]
 
+.pull-right[
+]
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Netzwerkanalyse
 
@@ -682,13 +824,108 @@ class: top, left
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Netzwerkanalyse
 
 .center[
 &lt;img src="bilder/network3.png" width="500px" /&gt;
 ]
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Explanative vs. Prädiktive Perspektive
+
+.pull-left[
+.center[
+&lt;img src="bilder/ml.png" width="500px" /&gt;
+]
+]
+
+.pull-right[
+* Besprochene Outcomes lassen sich **prädizieren**
+
+* Fortschritte durch komplexe Modellierungsmethoden (Machine Learning)
+
+* Modelle erlauben Verarbeitung hochdimensionaler Daten (**Hyperparametertuning** erforderlich)
+
+* Hoher **inkrementeller Nutzen** wegen Inkludierbarkeit in klinische Entscheidungsfindung
+
+* Fortschritte in Interpretierbarkeit durch **IML** Methoden
+]
+
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Explanative vs. Prädiktive Perspektive
+
+.pull-left[
+.center[
+&lt;img src="bilder/ml2.png" width="250px" /&gt;
+]
+]
+.pull-right[
+**Explanative Analyse:**
+
+* **Kriterium:** statistische Hypothesentests (p-Wert) und Effektstärken
+
+* i.d.R. **gruppenbasierte** Durchschnittsschätzungen
+
+* hoher **exploratorischer** Gehalt, i.d.R. leicht interpretierbare Modelle
+
+**Prädiktive Analyse:**
+
+* Vorhersage auf **Einzelpatientenebene**
+
+* **Kriterium:** Vorhersagegenauigkeit
+
+* **Notwendig:** Kreuzvalidierung anhand von Testdaten
+]
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Use-Case und Relevanz der Kreuzvalidierung
+
+.center[
+&lt;img src="bilder/ML 2.png" width="900px" /&gt;
+]
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Beispielcode: Random-Forest Learner mit Repeated Nested CV
+
+
+```r
+task_repCV = makeRegrTask(id = "task", target = "HAM-A", data = data)
+ctrl = makeTuneControlRandom(maxit = 250L)
+
+rf.parset = makeParamSet(
+  makeIntegerParam("mtry", lower = 1L, upper = 10L),
+  makeIntegerParam("ntree", lower = 100L, upper = 5000L),
+  makeIntegerParam("nodesize", lower = 1L, upper = 10L))
+
+rf = makeImputeWrapper(makeDummyFeaturesWrapper(makeLearner("regr.randomForest"))
+                       
+inner_RepCV = makeResampleDesc(method = "RepCV")
+rdesc_RepCV = makeResampleDesc(method = "RepCV")
+
+my_measures = list(rmse, spearmanrho)
+
+rf_RepCV = makeTuneWrapper(rf, par.set = rf.parset, resampling = inner_RepCV, control = ctrl, measures = my_measures)
+
+rinst_RepCV = makeResampleInstance(rdesc_RepCV, task_repCV)
+
+res = resample(learner = rf_lso, task = task_repCV, resampling = rinst_RepCV, measures = my_measures)
+```
+
 
 ---
 class: top, left

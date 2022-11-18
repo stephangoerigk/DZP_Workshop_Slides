@@ -109,6 +109,100 @@ class: top, left
 
 #### Gold-Standard Wirksamkeitsanalyse (Efficacy)
 
+```{r include=FALSE}
+n = 150 # number of individuals
+t = 1:10   # number of time periods
+
+df = expand.grid(t = 1:max(t),
+                 id = 1:n)
+df$group = c(rep("active", nrow(df)/2), rep("placebo", nrow(df)/2))
+
+trajectory = c("Linear response",
+               "Deteriorate",
+               "Rev. U-shape",
+               "Rapid response",
+               "No change")
+
+set.seed(123)
+for(ch in unique(df$id)){
+
+  if(df$group[df$id == ch][1] == "active"){
+    df$trajectory[df$id == ch] = rep(sample(trajectory, size = 1, replace = T, prob = c(.5, .05, .2, .2, .05)), max(t))
+  }
+  if(df$group[df$id == ch][1] == "placebo"){
+    df$trajectory[df$id == ch] = rep(sample(trajectory, size = 1, replace = T, prob = c(.2, .2, .1, .05, .45)), max(t))
+  }
+
+  if(df$trajectory[df$id == ch][1] == "No change"){
+    df$y[df$id == ch] = 24 + 0*t  + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Rev. U-shape"){
+    df$y[df$id == ch] = 24 + 8*t - 0.9*t^2 + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Linear response"){
+    df$y[df$id == ch] = 24 - 1*t  + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Deteriorate"){
+    df$y[df$id == ch] = 24 + 2*t  + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Rapid response"){
+    df$y[df$id == ch] = 24 - 10 * log(t) +  rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+}
+```
+
+.pull-left[
+```{r echo=F, out.width = "400px"}
+ggplot(data = df, aes(x = t, y = y, colour = group)) +
+  stat_summary(geom = "line", fun = "mean") +
+  stat_summary(geom = "point", fun = "mean") +
+  scale_x_continuous(breaks = t) +
+  coord_cartesian(ylim = c(0,30)) +
+  labs(x = "Time", colour = "Group") +
+  theme_classic() +
+  theme(text = element_text(size = 25), legend.position = "bottom")
+```
+]
+
+.pull-right[
+```{r, eval=FALSE}
+lmer(y ~ t * group + (1|id), data = df)
+```
+
+* Modellierung im linear mixed model (LMM)
+
+* hierarchische Datenstruktur berücksichtigt (measurements nested within patients)
+
+* Schätzung einer Durschnittsrate (Slope) für die Response der Gruppen
+
+* Wirksamkeitsnachweis i.d.R. definiert durch Differenz in Gruppenslopes bis Endpunkt
+(Zeit x Gruppe Interaktion)
+]
+
+---
+class: top, left
+### Parallelgruppen-Design
+
+#### Gold-Standard Wirksamkeitsanalyse (Efficacy)
+
+```{r, eval=FALSE}
+lmer(y ~ t * group + (1|id), data = df)
+```
+
+```{r echo=FALSE}
+round(summary(lmer(y ~ t * group + (1|id), data = df))$coefficients, 3)
+```
+
+* signifikante Überlegenheit der aktiven gegenüber Placebogruppe
+
+* ABER: nur auf Gruppenebene (nicht alle Patienten zeigen ein Theraieansprechen)
+
+**Vorsicht bei der Interpretation:**
+
+* i.d.R. heterogene Therapieresponse
+
+$\rightarrow$ Aufschlüsselung der Heterogenität Zielsetzung des **Präzisionsansatzes**
+
 ---
 class: top, left
 ### Parallelgruppen-Design 
@@ -127,25 +221,40 @@ class: top, left
 
 #### Marker für Behandlungserfolg - Klassische Explanative Ansätze der Responderanalyse
 
+.pull-left[
 .center[
 ```{r eval = TRUE, echo = F, out.width = "400px"}
 knitr::include_graphics("bilder/mod1.png")
 ```
 ]
 
-.pull-left[
 .center[
 ```{r eval = TRUE, echo = F, out.width = "400px"}
 knitr::include_graphics("bilder/Moderation.png")
 ```
 ]
 ]
+
 .pull-right[
-.center[
-```{r eval = TRUE, echo = F, out.width = "400px"}
-knitr::include_graphics("bilder/Mediation.png")
-```
+
+**Ansatz: **
+
+* assoziative Responderanalyse
+
+* hohe Zahl von Moderationskandidaten unterschiedlicher Modalitäten (Verhalten, Biomarker...)
+
+**ABER:**
+
+* bislang wenig Anhaltpunkte für stratifizierte Behandlungsplanung
+
+* wenig Replikation von Ergebnissen
 ]
+
+.center[
+```{r, eval=FALSE}
+lmer(y ~ t * group * moderator + (1|id), data = df)
+glm(response ~ group * moderator, data = df, family = binomial)
+```
 ]
 
 ---
@@ -165,8 +274,8 @@ knitr::include_graphics("bilder/mod3.png")
 knitr::include_graphics("bilder/mod2.png")
 ```
 ]
-
 ]
+
 .pull-right[
 **Optimierung der Prädiktion:**
 * Hinzunahme von Prädiktoren
@@ -203,7 +312,6 @@ class: top, left
 * Keine objektiven Verhaltensmaße
 
 * Wechselwirkungen auf Symptombasis nicht berücksichtigt
-
 
 ---
 class: top, left
@@ -251,7 +359,44 @@ knitr::include_graphics("bilder/sideeffects.png")
 class: top, left
 ### Units of Analysis
 
-#### Symptomcluster
+#### Problem 1: Summenwerte
+
+.pull-left[
+.pull-left[
+.center[
+<br>
+```{r eval = TRUE, echo = F, out.width = "200px"}
+knitr::include_graphics("bilder/sum.png")
+```
+]
+]
+.pull-right[
+.center[
+<br><br>
+```{r eval = TRUE, echo = F, out.width = "800px"}
+knitr::include_graphics("bilder/gif1.gif")
+```
+]
+]
+]
+
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "400px"}
+knitr::include_graphics("bilder/item.gif")
+```
+]
+]
+
+**Problem:**
+* Symptome verbessern sich ggf. mit unterschiedlicher Intensität
+
+* Schlecht ansprechende Symptome maskieren ggf. Verbesserung gut ansprechender Symptome
+---
+class: top, left
+### Units of Analysis
+
+#### Lösungsansatz: Symptomcluster
 
 .pull-left[
 .pull-left[
@@ -387,7 +532,7 @@ pruned = dynamicTreeCut::cutreeDynamic(clust, distM = as.matrix(d), method = "hy
 class: top, left
 ### Units of Analysis
 
-#### Symptomcluster: Beispielstudie
+#### Symptomcluster: Beispielstudie (Goerigk et al., 2021)
 
 .center[
 ```{r eval = TRUE, echo = F, out.width = "950px"}
@@ -466,17 +611,15 @@ knitr::include_graphics("bilder/Timing.gif")
 ]
 ]
 
-* Wirksamkeitsvergleich und Berechnung von Responderstatus i.d.R. zum Endpunkt der Studie
-
-* Ignorieren frühen/späten Therapieansprechens 
-
-* Keine Berücksichtigung der Dynamik von Subgruppen
+* Wirksamkeitsvergleich und Berechnung von Responderstatus i.d.R. zum **Endpunkt** der Studie
+* Ignorieren **frühen/späten** Therapieansprechens
+* Keine Berücksichtigung der **Dynamik** von Subgruppen
 
 ---
 class: top, left
 ### Units of Analysis
 
-#### Response-Trajektorien: Mixture Modell
+#### Lösungsansatz: Response-Trajektorien im Mixture Modell
 
 .pull-left[
 1-Trajektorien-Ansatz
@@ -512,7 +655,7 @@ knitr::include_graphics("bilder/gif3.gif")
 class: top, left
 ### Units of Analysis
 
-#### Response-Trajektorien: Mixture Modell
+#### Lösungsansatz: Response-Trajektorien im Mixture Modell
 
 ```{r include=FALSE}
 n = 30 # number of individuals
@@ -586,7 +729,7 @@ mi = lcmm::hlme(fixed = y ~ 1 + t + I(t^2),
 class: top, left
 ### Units of Analysis
 
-#### Response-Trajektorien: Beispielstudie
+#### Response-Trajektorien: Beispielstudie (Goerigk et al. in prep)
 
 .center[
 ```{r eval = TRUE, echo = F, out.width = "1000px"}
@@ -598,7 +741,7 @@ knitr::include_graphics("bilder/Figure1_alternate.png")
 class: top, left
 ### Units of Analysis
 
-#### Das Problem zu niedriger Auflösung bei schwankenden Konstrukten
+#### Problem 5: Niedrige zeitliche Auflösung bei schwankenden Konstrukten
 
 .pull-left[
 
@@ -608,7 +751,7 @@ class: top, left
 
 * Zeitfenster vs. Zeitpunkt
 
-Fortschritt:
+**Fortschritt:**
 
 * EMA-Daten und Sensing ermöglichen zeitlich-verdichtete Messungen
 
@@ -642,7 +785,7 @@ data.frame(x = x,
 class: top, left
 ### Units of Analysis
 
-#### Time-Series Modeling - Dynamic Time Warping
+#### Lösungsansatz: Time-Series Modeling - Dynamic Time Warping
 
 .pull-left[
 .center[
@@ -659,6 +802,22 @@ knitr::include_graphics("bilder/dtw2.png")
 ```
 ]
 ]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Lösungsansatz: Time-Series Modeling - Dynamic Time Warping
+
+**Vorteile:**
+
+* Time-series clustering Ansatz
+
+* Reduktion der Komplexität hoch-aufgelöster Zeitreihendaten
+
+* Zeitreihen können gruppiert werden, selbst wenn diese nicht in Form und Muster synchron sind (lagged)
+
+* Flexibel modifizierbar, je nach gewünschtem Clustering Algorithmus (Hierachical, Centroid-based...)
 
 ---
 class: top, left
@@ -729,7 +888,31 @@ knitr::include_graphics("bilder/dtw4.png")
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
+
+#### Strukturgleichungsmodelle:
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "1000px"}
+knitr::include_graphics("bilder/sem.png")
+```
+]
+
+---
+class: top, left
+### Multivariate pattern
+
+#### Strukturgleichungsmodelle:
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "900px"}
+knitr::include_graphics("bilder/semm.png")
+```
+]
+
+---
+class: top, left
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Curve
 
@@ -739,9 +922,13 @@ knitr::include_graphics("bilder/lgcm.png")
 ```
 ]
 
+* Abbilden des Slopes als latente Variable (mit Varianz -> Random Effekt)
+
+* Kann mit komplexen Messmodellen und multivariaten Analysen kombiniert werden
+
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Curve
 
@@ -764,7 +951,7 @@ Beispielcode:
 ```{r eval = F}
 model <- ' i =~ 1*t1 + 1*t2 + 1*t3 + 1*t4 + 1*t5
            s =~ 0*t1 + 1*t2 + 2*t3 + 3*t4 + 4*t5'
-fit <- growth(model, data = data)
+fit <- lavaan::growth(model, data = data)
 summary(fit)
 ```
 ]
@@ -778,7 +965,7 @@ knitr::include_graphics("bilder/lgcm.png")
 ]
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Mediation
 
@@ -790,7 +977,7 @@ knitr::include_graphics("bilder/sem1.png")
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Latent-Growth Mediation
 
@@ -815,7 +1002,7 @@ sy ~ b*sm
 ab := a*b
 # total effect
 total := c + (a*b)'
-fit <- sem(model, data = Data)
+fit <- lavaan::sem(model, data = Data)
 ```
 ]
 .pull-right[
@@ -828,7 +1015,7 @@ knitr::include_graphics("bilder/sem1.png")
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Cross-lagged panel model
 
@@ -840,7 +1027,7 @@ knitr::include_graphics("bilder/sem2.png")
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Strukturgleichungsmodelle: Cross-lagged panel model
 
@@ -861,7 +1048,7 @@ Cog_T2 ~~ Func_T2
 Cog_T1 ~~ Func_T1
 "
 
-fit <-sem(cl_model, missing = "fiml", data = data)
+fit <-lavaan::sem(cl_model, missing = "fiml", data = data)
 summary(fit)
 ```
 ]
@@ -874,19 +1061,23 @@ knitr::include_graphics("bilder/sem2.png")
 ]
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Netzwerkanalyse
 
+.pull-left[
 .center[
 ```{r eval = TRUE, echo = F, out.width = "500px"}
 knitr::include_graphics("bilder/network1.png")
 ```
 ]
+]
 
+.pull-right[
+]
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Netzwerkanalyse
 
@@ -898,7 +1089,7 @@ knitr::include_graphics("bilder/network2.png")
 
 ---
 class: top, left
-### Multivariate patterns
+### Multivariate pattern
 
 #### Netzwerkanalyse
 
@@ -907,6 +1098,106 @@ class: top, left
 knitr::include_graphics("bilder/network3.png")
 ```
 ]
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Explanative vs. Prädiktive Perspektive
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/ml.png")
+```
+]
+]
+
+.pull-right[
+* Besprochene Outcomes lassen sich **prädizieren**
+
+* Fortschritte durch komplexe Modellierungsmethoden (Machine Learning)
+
+* Modelle erlauben Verarbeitung hochdimensionaler Daten (**Hyperparametertuning** erforderlich)
+
+* Hoher **inkrementeller Nutzen** wegen Inkludierbarkeit in klinische Entscheidungsfindung
+
+* Fortschritte in Interpretierbarkeit durch **IML** Methoden
+]
+
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Explanative vs. Prädiktive Perspektive
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "250px"}
+knitr::include_graphics("bilder/ml2.png")
+```
+]
+]
+.pull-right[
+**Explanative Analyse:**
+
+* **Kriterium:** statistische Hypothesentests (p-Wert) und Effektstärken
+
+* i.d.R. **gruppenbasierte** Durchschnittsschätzungen
+
+* hoher **exploratorischer** Gehalt, i.d.R. leicht interpretierbare Modelle
+
+**Prädiktive Analyse:**
+
+* Vorhersage auf **Einzelpatientenebene**
+
+* **Kriterium:** Vorhersagegenauigkeit
+
+* **Notwendig:** Kreuzvalidierung anhand von Testdaten
+]
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Use-Case und Relevanz der Kreuzvalidierung
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "900px"}
+knitr::include_graphics("bilder/ML 2.png")
+```
+]
+
+---
+class: top, left
+### Cross-validated prediction
+
+#### Beispielcode: Random-Forest Learner mit Repeated Nested CV
+
+```{r eval=FALSE}
+task_repCV = makeRegrTask(id = "task", target = "HAM-A", data = data)
+ctrl = makeTuneControlRandom(maxit = 250L)
+
+rf.parset = makeParamSet(
+  makeIntegerParam("mtry", lower = 1L, upper = 10L),
+  makeIntegerParam("ntree", lower = 100L, upper = 5000L),
+  makeIntegerParam("nodesize", lower = 1L, upper = 10L))
+
+rf = makeImputeWrapper(makeDummyFeaturesWrapper(makeLearner("regr.randomForest"))
+                       
+inner_RepCV = makeResampleDesc(method = "RepCV")
+rdesc_RepCV = makeResampleDesc(method = "RepCV")
+
+my_measures = list(rmse, spearmanrho)
+
+rf_RepCV = makeTuneWrapper(rf, par.set = rf.parset, resampling = inner_RepCV, control = ctrl, measures = my_measures)
+
+rinst_RepCV = makeResampleInstance(rdesc_RepCV, task_repCV)
+
+res = resample(learner = rf_lso, task = task_repCV, resampling = rinst_RepCV, measures = my_measures)
+```
+
 
 ---
 class: top, left
