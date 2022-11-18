@@ -105,6 +105,811 @@ knitr::include_graphics("bilder/RCT.png")
 
 ---
 class: top, left
+### Parallelgruppen-Design
+
+#### Gold-Standard Wirksamkeitsanalyse (Efficacy)
+
+---
+class: top, left
+### Parallelgruppen-Design 
+
+#### Präzisionsmedizinische Fragestellung
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "1000px"}
+knitr::include_graphics("bilder/precision.png")
+```
+]
+
+---
+class: top, left
+### Responderanalyse 
+
+#### Marker für Behandlungserfolg - Klassische Explanative Ansätze der Responderanalyse
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "400px"}
+knitr::include_graphics("bilder/mod1.png")
+```
+]
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "400px"}
+knitr::include_graphics("bilder/Moderation.png")
+```
+]
+]
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "400px"}
+knitr::include_graphics("bilder/Mediation.png")
+```
+]
+]
+
+---
+class: top, left
+### Responderanalyse 
+
+#### Marker für Behandlungserfolg - Ansätze zur Erhöhung der Präzision
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/mod3.png")
+```
+]
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/mod2.png")
+```
+]
+
+]
+.pull-right[
+**Optimierung der Prädiktion:**
+* Hinzunahme von Prädiktoren
+* Bessere Messungen
+* Leistungsfähigere Modelle
+* Modellierung von Wechselwirkungen
+* Non-lineare Modellierung
+* Hierarchische Modellierung
+
+**Optimierung der Outcomes:**
+* Differenzierte (multidimensionale) Outcomes
+* Dynamische Outcomes
+* Hochauflösende Outcomes (Zeitreihen)
+* Reziproke Outcomes (Wechselwirkungen)
+* Vernetzte Outcomes
+]
+
+---
+class: top, left
+### Responderanalyse 
+
+#### Probleme gängiger Outcomes von Wirksamkeitsstudien
+
+* Summenwerte
+
+* Arbitäre Cutoffs
+
+* Keine Informationen über unterschiedliches Timing im Therapieansprechen
+
+* Gruppenbasierte Durchschnittsverläufe
+
+* oft zu geringe zeitliche Auflösung für schwankende Phänomene
+
+* Keine objektiven Verhaltensmaße
+
+* Wechselwirkungen auf Symptombasis nicht berücksichtigt
+
+
+---
+class: top, left
+### Units of Analysis
+
+#### Problem 1: Summenwerte
+
+.pull-left[
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "700px"}
+knitr::include_graphics("bilder/dep1.png")
+```
+]
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "200px"}
+knitr::include_graphics("bilder/sum.png")
+```
+]
+]
+.pull-right[
+.center[
+<br>
+```{r eval = TRUE, echo = F, out.width = "800px"}
+knitr::include_graphics("bilder/gif1.gif")
+```
+]
+]
+]
+
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "400px"}
+knitr::include_graphics("bilder/sideeffects.png")
+```
+]
+
+* alle Symptome gehen gleichgewichtet ein (tau-Äquivalenz)
+
+* Ignorieren behandlungsspezifischer Effekte
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Symptomcluster
+
+.pull-left[
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "200px"}
+knitr::include_graphics("bilder/sum.png")
+```
+]
+.center[
+```{r eval = TRUE, echo = F, out.width = "200px"}
+knitr::include_graphics("bilder/symptomcluster1.png")
+```
+]
+]
+.pull-right[
+.center[
+<br>
+```{r eval = TRUE, echo = F, out.width = "800px"}
+knitr::include_graphics("bilder/gif1.gif")
+```
+]
+.center[
+<br><br>
+```{r eval = TRUE, echo = F, out.width = "800px"}
+knitr::include_graphics("bilder/gif2.gif")
+```
+]
+]
+]
+
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "400px"}
+knitr::include_graphics("bilder/symptomcluster.png")
+```
+]
+.center[
+```{r eval = TRUE, echo = F, out.width = "400px"}
+knitr::include_graphics("bilder/symptomcluster3.png")
+```
+]
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Symptomcluster
+
+```{r include=FALSE}
+
+n = 10 # number of individuals
+t = 1:10   # number of time periods
+
+hama_names = c("Anxious Mood",
+               "Tension",
+               "Fears",
+               "Insomnia",
+               "Concentration and Memory",
+               "Depressed Mood",
+               "General somatic symptoms: muscular",
+               "General somatic symptoms: sensory",
+               "Cardiovascular symptoms",
+               "Respiratory symptoms",
+               "Gastro-intestinal symptoms",
+               "Genito-urinary symptoms",
+               "Other autonomic symptoms")
+
+hama_means = c(2.9669421,
+               2.8044077,
+               2.4559229,
+               2.4297521,
+               1.3815427,
+               1.3071625,
+               1.6129477,
+               1.5633609,
+               1.4531680,
+               1.0330579,
+               1.7190083,
+               0.6694215,
+               1.6198347)
+
+hama_sds = c(0.7136179,
+             0.8339568,
+             1.1314254,
+             1.2283532,
+             1.2313786,
+             1.2454069,
+             1.2715661,
+             1.2264810,
+             1.2583008,
+             1.2200659,
+             1.2815280,
+             1.0691029,
+             1.1585213)
+
+hama_cor = read.csv("https://raw.githubusercontent.com/stephangoerigk/DZP_Workshop_Slides/master/hamacor.csv")
+hama_cor = as.matrix(hama_cor[,-1])
+
+data_cluster = round(
+  faux::rnorm_multi(n = n,
+                    mu = hama_means,
+                    sd = hama_sds,
+                    r = hama_cor,
+                    varnames = hama_names,
+                    empirical = F), 2)
+
+data_cluster = data_cluster[,1:10]
+names(data_cluster) = paste0("Item", 1:10)
+```
+
+Beispieldatensatz:
+
+```{r}
+head(data_cluster, 2)
+```
+
+Beispielcode:
+
+```{r eval=F}
+# Transpose data
+data_transposed = t(na.omit(data_cluster))
+# Compute distance matrix
+d = dist(data_transposed, method = "euclidean")
+# Clustering
+clust = hclust(d, method = "ward.D2")
+# Create dendrogram
+dend <- as.dendrogram(clust, hang = -1)
+# Prune dendrogram
+pruned = dynamicTreeCut::cutreeDynamic(clust, distM = as.matrix(d), method = "hybrid", minClusterSize = 1)
+```
+---
+class: top, left
+### Units of Analysis
+
+#### Symptomcluster: Beispielstudie
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "950px"}
+knitr::include_graphics("bilder/Fig1.png")
+```
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Problem 2: Arbitäre Cutoffs
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "450px"}
+knitr::include_graphics("bilder/gif1.gif")
+```
+]
+]
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "700px"}
+knitr::include_graphics("bilder/respgif.gif")
+```
+]
+]
+
+* feste Definitionen für Behandlungserfolg z.B. Response $\geq$ 50% Symptomreduktion
+
+* Vorteil: ermöglicht leicht interpretierbare Subgruppenanalyse (Responder vs. Non-Responder)
+
+---
+class: top, left
+### Units of Analysis
+
+#### Problem 2: Arbitäre Cutoffs
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "700px"}
+knitr::include_graphics("bilder/respgif.gif")
+```
+]
+]
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "300px"}
+knitr::include_graphics("bilder/resp.png")
+```
+]
+]
+
+* Nachteil: Cutoff ist arbiträr $\rightarrow$ $\geq$ 50% Symptomreduktion klinisch relevant?
+
+* Nachteil: 49% Verbessung und 50% Verbessung unterschiedliche Kategorie; 50% und 99% gleich
+
+---
+class: top, left
+### Units of Analysis
+
+#### Problem 3: Keine Informationen über unterschiedliches Timing im Therapieansprechen
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "700px"}
+knitr::include_graphics("bilder/RCT2.png")
+```
+]
+]
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "700px"}
+knitr::include_graphics("bilder/Timing.gif")
+```
+]
+]
+
+* Wirksamkeitsvergleich und Berechnung von Responderstatus i.d.R. zum Endpunkt der Studie
+
+* Ignorieren frühen/späten Therapieansprechens 
+
+* Keine Berücksichtigung der Dynamik von Subgruppen
+
+---
+class: top, left
+### Units of Analysis
+
+#### Response-Trajektorien: Mixture Modell
+
+.pull-left[
+1-Trajektorien-Ansatz
+.center[
+```{r eval = TRUE, echo = F, out.width = "250px"}
+knitr::include_graphics("bilder/gif4.gif")
+```
+]
+Mixture-Modell
+.center[
+```{r eval = TRUE, echo = F, out.width = "250px"}
+knitr::include_graphics("bilder/gif5.gif")
+```
+]
+]
+
+.pull-right[
+Durchschnittstrajektorie
+.center[
+```{r eval = TRUE, echo = F, out.width = "250px"}
+knitr::include_graphics("bilder/gif1.gif")
+```
+]
+Durchschnittstrajektorie
+.center[
+```{r eval = TRUE, echo = F, out.width = "250px"}
+knitr::include_graphics("bilder/gif3.gif")
+```
+]
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Response-Trajektorien: Mixture Modell
+
+```{r include=FALSE}
+n = 30 # number of individuals
+t = 1:3
+
+
+df = expand.grid(t = 1:max(t),
+                 id = 1:n)
+df$group = c(rep("active", nrow(df)/2), rep("placebo", nrow(df)/2))
+
+trajectory = c("Linear response",
+               "Deteriorate",
+               "Rev. U-shape",
+               "Rapid response",
+               "No change")
+
+set.seed(123)
+for(ch in unique(df$id)){
+
+  if(df$group[df$id == ch][1] == "active"){
+    df$trajectory[df$id == ch] = rep(sample(trajectory, size = 1, replace = T, prob = c(.5, .05, .2, .2, .05)), max(t))
+  }
+  if(df$group[df$id == ch][1] == "placebo"){
+    df$trajectory[df$id == ch] = rep(sample(trajectory, size = 1, replace = T, prob = c(.2, .2, .1, .05, .45)), max(t))
+  }
+
+  if(df$trajectory[df$id == ch][1] == "No change"){
+    df$y[df$id == ch] = 24 + 0*t  + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Rev. U-shape"){
+    df$y[df$id == ch] = 24 + 8*t - 0.9*t^2 + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Linear response"){
+    df$y[df$id == ch] = 24 - 1*t  + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Deteriorate"){
+    df$y[df$id == ch] = 24 + 2*t  + rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+  if(df$trajectory[df$id == ch][1] == "Rapid response"){
+    df$y[df$id == ch] = 24 - 10 * log(t) +  rnorm(nrow(df[df$id == ch,]), 0, 3)
+  }
+}
+
+df = df[, c("t", "id", "y")]
+```
+
+.pull-left[
+Beispieldatensatz:
+
+```{r}
+head(df, 10)
+```
+]
+
+.pull-left[
+Beispielcode:
+
+```{r eval=F}
+mi = lcmm::hlme(fixed = y ~ 1 + t + I(t^2),
+           mixture = ~ 1 + t + I(t^2),
+           random = ~ 1,
+           ng = 5,
+           nwg = FALSE,
+           idiag = FALSE,
+           data = df,
+           subject = "id")
+```
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Response-Trajektorien: Beispielstudie
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "1000px"}
+knitr::include_graphics("bilder/Figure1_alternate.png")
+```
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Das Problem zu niedriger Auflösung bei schwankenden Konstrukten
+
+.pull-left[
+
+* Endpunkt-Messung stark Timing-abhängig
+
+* Besondere Bedeutung bei BL-Prädiktoren
+
+* Zeitfenster vs. Zeitpunkt
+
+Fortschritt:
+
+* EMA-Daten und Sensing ermöglichen zeitlich-verdichtete Messungen
+
+* Probleme: 
+
+  * große Datenmengen
+  * wenig inferenzstatistische Konzepte
+  * Power-Überlegungen
+
+]
+.pull-right[
+.center[
+```{r echo = F, out.width = "400px"}
+x <- seq(1, 24, 0.01)
+z <- sin(x)
+
+data.frame(x = x, 
+           z = z) %>%
+    pivot_longer(-x) %>%
+    ggplot(aes(x, value)) +
+    geom_line() +
+  theme_classic() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(y = "Stimmung", x = "Zeit") +
+  theme(text = element_text(size = 25))
+```
+]
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Time-Series Modeling - Dynamic Time Warping
+
+.pull-left[
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/dtw1.png")
+```
+]
+]
+
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/dtw2.png")
+```
+]
+]
+
+---
+class: top, left
+### Units of Analysis
+
+#### Time-Series Modeling - Dynamic Time Warping
+
+```{r include=FALSE}
+nodep <- 5
+dep <- 20
+
+# no depressive episode
+ts_sim_nodep <- abs(arima.sim(n = 420, mean = 0.001, model = list(order = c(1,0,0), ar = 0.9))) + nodep
+
+ts.plot(ts_sim_nodep, xlab = "Time", ylab = "Negative Mood", main = "Example no depressive episode", ylim=c(0,25))
+
+# depressive episode
+ts_sim_part1 <- abs(arima.sim(n = 210, model = list(order = c(1,0,0), ar = 0.9))) + nodep
+ts_sim_part2 <- ts(arima.sim(n = 210, model = list(order = c(1,0,0), ar = 0.9)) + dep, start = 211,end =420)
+
+ts_sim_dep <- ts.union(ts_sim_part1,ts_sim_part2)
+ts_sim_dep<- pmin(ts_sim_dep[,1], ts_sim_dep[,2], na.rm = TRUE)
+
+ts.plot(ts_sim_dep, xlab = "Time", ylab = "Negative Mood", main = "Example depressive episode", ylim=c(0,25))
+
+ts_sim_boot_classic <- ts_sim_nodep %>%
+  tseries::tsbootstrap(., nb=5, b=200, type = "block") %>%
+  as.data.frame(.) %>%
+  dplyr::rename_all(funs(c(paste0("nodep_",.))))
+
+ts_sim_boot_dep <- ts_sim_dep %>%
+  tseries::tsbootstrap(., nb=5, b=350, type = "block") %>%
+  as.data.frame(.) %>%
+  dplyr::rename_all(funs(c(paste0("dep_",.))))
+
+ts_sim_df <- cbind(ts_sim_boot_classic,ts_sim_boot_dep)
+```
+
+Beispieldatensatz:
+
+```{r}
+head(ts_sim_df, 3)
+```
+
+Beispielcode:
+
+```{r eval=F}
+dtwclust::tsclust(t(ts_sim_df),
+                  type = "h",
+                  k = 2,
+                  distance = "dtw",
+                  control = hierarchical_control(method = "complete"),
+                  preproc = NULL,
+                  args = tsclust_args(dist = list(window.size = 5L)))
+```
+
+---
+class: top, left
+### Units of Analysis
+
+#### Time-Series Modeling - Dynamic Time Warping
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "900px"}
+knitr::include_graphics("bilder/dtw4.png")
+```
+]
+
+---
+class: top, left
+### Multivariate patterns
+
+#### Strukturgleichungsmodelle: Latent-Growth Curve
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/lgcm.png")
+```
+]
+
+---
+class: top, left
+### Multivariate patterns
+
+#### Strukturgleichungsmodelle: Latent-Growth Curve
+
+.pull-left[
+Beispieldatensatz:
+
+```{r include=FALSE}
+data = Demo.growth[,1:4]
+data$t5 = data$t4
+data = round(data, 2)
+```
+
+```{r message=FALSE, warning=FALSE}
+library(lavaan)
+head(data, 4)
+```
+
+Beispielcode:
+
+```{r eval = F}
+model <- ' i =~ 1*t1 + 1*t2 + 1*t3 + 1*t4 + 1*t5
+           s =~ 0*t1 + 1*t2 + 2*t3 + 3*t4 + 4*t5'
+fit <- growth(model, data = data)
+summary(fit)
+```
+]
+
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/lgcm.png")
+```
+]
+]
+---
+class: top, left
+### Multivariate patterns
+
+#### Strukturgleichungsmodelle: Latent-Growth Mediation
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/sem1.png")
+```
+]
+
+---
+class: top, left
+### Multivariate patterns
+
+#### Strukturgleichungsmodelle: Latent-Growth Mediation
+
+Beispielcode:
+
+.pull-left[
+```{r eval = F}
+model <- '
+iy =~ 1*y1 + 1*y2 + 1*y3 + 1*y4
+sy =~ 0*y1 + 1*y2 + 2*y3 + 3*y4
+ix =~ 1*x1 + 1*x2 + 1*x3 + 1*x4
+sx =~ 0*x1 + 1*x2 + 2*x3 + 3*x4
+im =~ 1*m1 + 1*m2 + 1*m3 + 1*m4
+sm =~ 0*m1 + 1*m2 + 2*m3 + 3*m4
+
+# direct effect
+sy ~ c*sx
+# mediator
+sm ~ a*sx
+sy ~ b*sm
+# indirect effect (a*b)
+ab := a*b
+# total effect
+total := c + (a*b)'
+fit <- sem(model, data = Data)
+```
+]
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/sem1.png")
+```
+]
+]
+
+---
+class: top, left
+### Multivariate patterns
+
+#### Strukturgleichungsmodelle: Cross-lagged panel model
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "700px"}
+knitr::include_graphics("bilder/sem2.png")
+```
+]
+
+---
+class: top, left
+### Multivariate patterns
+
+#### Strukturgleichungsmodelle: Cross-lagged panel model
+
+Beispielcode:
+
+.pull-left[
+```{r eval=F}
+cl_model = "
+Cog_T4 ~ Cog_T3 + Func_T3
+Func_T4 ~ Cog_T3 + Func_T3
+Cog_T3 ~ Cog_T2 + Func_T2
+Func_T3 ~ Cog_T2 + Func_T2
+Cog_T2 ~ Cog_T1 + Func_T1
+Func_T2 ~ Cog_T1 + Func_T1
+Cog_T4 ~~ Func_T4
+Cog_T3 ~~ Func_T3
+Cog_T2 ~~ Func_T2
+Cog_T1 ~~ Func_T1
+"
+
+fit <-sem(cl_model, missing = "fiml", data = data)
+summary(fit)
+```
+]
+.pull-right[
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/sem2.png")
+```
+]
+]
+---
+class: top, left
+### Multivariate patterns
+
+#### Netzwerkanalyse
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/network1.png")
+```
+]
+
+---
+class: top, left
+### Multivariate patterns
+
+#### Netzwerkanalyse
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "700px"}
+knitr::include_graphics("bilder/network2.png")
+```
+]
+
+---
+class: top, left
+### Multivariate patterns
+
+#### Netzwerkanalyse
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "500px"}
+knitr::include_graphics("bilder/network3.png")
+```
+]
+
+---
+class: top, left
 ### Take-aways
 
 .full-width[.content-box-gray[
