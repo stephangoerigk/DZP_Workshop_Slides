@@ -31,6 +31,9 @@ library(MASS)
 library(ggpubr)
 library(xaringanthemer)
 library(xaringanExtra)
+library(lme4)
+library(lmerTest)
+library(lavaan)
 
 style_duo_accent(
   primary_color = "#268188",
@@ -807,7 +810,7 @@ knitr::include_graphics("bilder/dtw2.png")
 class: top, left
 ### Units of Analysis
 
-#### Lösungsansatz: Time-Series Modeling - Dynamic Time Warping
+#### Time-Series Modeling - Dynamic Time Warping
 
 **Vorteile:**
 
@@ -1059,6 +1062,29 @@ knitr::include_graphics("bilder/sem2.png")
 ```
 ]
 ]
+
+---
+class: top, left
+### Multivariate pattern
+
+#### Netzwerkanalyse
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "1000px"}
+knitr::include_graphics("bilder/nets.png")
+```
+]
+
+* Analyse psychischer Phänomene auf dem Systemlevel
+
+* Exploration hoch dimensionaler Daten ohne theoretische Vorannahmen (wie EFA, o.ä.)
+
+* Besonderheit: paarweise Abhängigkeiten (pairwise conditional dependencies, PCD)
+
+* PCD = probabilistisch abhängig konditional auf alle andere Variablen 
+
+* joint probability distribution (graphical model - pairwise Markov random field, PMRF)
+
 ---
 class: top, left
 ### Multivariate pattern
@@ -1074,6 +1100,20 @@ knitr::include_graphics("bilder/network1.png")
 ]
 
 .pull-right[
+* node selection: eher inhaltlich als methodisch
+
+* edge selection methods (PMRF creation): 
+
+  * fit indices
+  * significance testing
+  * cross-validation
+  * regularized estimation (LASSO)
+  
+* node centrality:
+
+  * node strength (sum of absolute edge weights of edges per node)
+  * closeness (distance between the node and all other nodes)
+  * betweenness (how often a node lies on the shortest path connecting two other nodes)
 ]
 ---
 class: top, left
@@ -1204,8 +1244,21 @@ class: top, left
 ### Take-aways
 
 .full-width[.content-box-gray[
+* RCTs sind essentielle Experimente zur Wirksamkeitsüberprüfung von Therapien und als solche nicht zu ersetzen
 
+* Ziel von Re-Analysen: Aufschlüsseln von Heterogenität im Therapieansprechen (Tailored Treatments)
 
+* Aus Wirksamkeitsanalysen abgeleitete Maße haben konzeptuelle Schwächen bzgl. Erklärung der Heterogenität 
+
+* Analyse von Summenscores vs. separate Analyse von Symtptomsystemen
+
+* Analyse von querschnittlicher Response/Remission vs. dynamische Verlaufsklassen  
+
+* stationäre Messungen vs. Zeitreihen und Zeitreihenanalyse
+
+* Störungsmodellierung als Schweregradseinschätzung/kategoriale Diagnose vs. auf dem Systemlevel (Netzwerke)
+
+* Explanative Modellierung vs. Prädiktive Modellierung (oder Kombination)
 ]
 ]
 

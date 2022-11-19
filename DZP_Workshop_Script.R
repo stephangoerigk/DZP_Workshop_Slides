@@ -150,7 +150,6 @@ ggplot(data = df, aes(x = t, y = y, colour = trajectory)) +
   theme_classic()
 
 set.seed(222)
-
 results_total = data.frame(ng = NA,
                            Polynomial = NA,
                            Random = NA,
