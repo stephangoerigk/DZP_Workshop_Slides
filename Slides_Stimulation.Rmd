@@ -662,26 +662,33 @@ knitr::include_graphics("bilder/Fig1.png")
 class: top, left
 ### Statistics to explain/understand variability
 
-#### Between-subject variability - Response Dynamics
+#### Between-subject variability - Response-Trajectories: 
 
 .pull-left[
+1-Trajectory-Approach
 .center[
-```{r eval = TRUE, echo = F, out.width = "700px"}
-knitr::include_graphics("bilder/RCT2.png")
-```
-]
-]
-.pull-right[
-.center[
-```{r eval = TRUE, echo = F, out.width = "700px"}
-knitr::include_graphics("bilder/Timing.gif")
+```{r eval = TRUE, echo = F, out.width = "250px"}
+knitr::include_graphics("bilder/gif4.gif")
 ```
 ]
 ]
 
-* Calculation of responder status at **study endpoint** 
+.pull-right[
+Average Trajectory
+.center[
+```{r eval = TRUE, echo = F, out.width = "250px"}
+knitr::include_graphics("bilder/gif1.gif")
+```
+]
+
+]
+
 * Ignores **early/late** response
+
 * Ignores individual **dynamics** of change
+
+* Calculation of responder status at **study endpoint** 
+
 
 ---
 class: top, left
