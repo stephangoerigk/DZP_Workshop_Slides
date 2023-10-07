@@ -805,6 +805,23 @@ knitr::include_graphics("bilder/nw2.png")
 
 ---
 class: top, left
+### Take-aways
+
+.full-width[.content-box-gray[
+* Significant variability in results of analyses of complex data difficult to avoid, even by experts with honest intentions.
+
+* Multilevel modeling can control unspecific variability due to cluster hierarchies.
+
+* Ignoring differential treatment effects on symptom clusters, may lead to masking of variability in sum scores.
+
+* Longitudinal agglomeration methods (e.g. mixture modelling) modeling of individual response dynamics
+
+* Network models allow parsing temporal, contemporaneous and, between-subject effects annd allow analysis of variability from a complex systems perspective.
+]
+]
+
+---
+class: top, left
 ### References
 
 <small>
