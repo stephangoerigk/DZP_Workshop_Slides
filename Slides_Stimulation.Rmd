@@ -353,7 +353,7 @@ class: top, left
 #### Unspecific variability - Hierarchical modeling
 
 .center[
-```{r eval = TRUE, echo = F, out.width = "880px"}
+```{r eval = TRUE, echo = F, out.width = "800px"}
 knitr::include_graphics("bilder/hlm1.png")
 ```
 ]
@@ -365,7 +365,7 @@ class: top, left
 #### Unspecific variability - Hierarchical modeling
 
 .center[
-```{r eval = TRUE, echo = F, out.width = "880px"}
+```{r eval = TRUE, echo = F, out.width = "800px"}
 knitr::include_graphics("bilder/hlm2.png")
 ```
 ]
@@ -521,7 +521,6 @@ knitr::include_graphics("bilder/07_models.png")
 ---
 class: top, left
 ### Statistics to explain/understand variability
-
 
 .pull-left[
 .center[
