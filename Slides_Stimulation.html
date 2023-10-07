@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Einheit 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Stephan Goerigk" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#00C1BF"],"pen_size":4,"eraser_size":40,"palette":[]}) })</script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+name: Title slide
+class: middle, left
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+## 1st Expert Workshop:
+### Targeting Variability in Transcranial Stimulation Research
+
+### Variability and Statistical Analysis
+##### 07.10.2023 | Stephan Goerigk
+
+---
+class: top, left
+name: Contact Slide
+
+### Contact Details
+
+.pull-left[
+Stephan Goerigk 
+
+Klinik für Psychiatrie und Psychotherapie
+
+Ludwig-Maximilians-Universität
+
+Nussbaumstraße 7 · 80336 München · 
+
+[stephan.goerigk@med.uni-muenchen.de](mailto:stephan.goerigk@med.uni-muenchen.de)
+
+[Commitment to Research Transparency](http://www.researchtransparency.org)
+]
+
+.pull-right[
+.center[
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+.bottom[![](rtransperency.png)]
+]
+]
+
+***
+---
+class: top, left
+### Variability in Transcranial Stimulation Research
+
+#### Variability and Statistical Analysis:
+
+**1. Statistics causing variability (of results)**
+
+  * Statistician degrees of freedom
+  * Design aspects (e.g. selection of measures, trial design)
+
+**2. Statistics to control variability**
+
+  * Specific effects
+  * Unspecific effects 
+
+**3. Statistics to explain/understand variability**
+
+  * Predictors (predictive [accuracy] vs. explanatory modeling [p-value, ES])
+  * Outcomes (components, dynamics, interactions) 
+
+---
+class: top, left
+### Statistics causing variability
+
+.pull-left[
+
+#### Statistician degrees of freedom
+
+&lt;img src="bilder/rdf2.png" width="350px" /&gt;
+ 
+]
+.pull-right[
+.center[
+&lt;img src="bilder/rdf1.png" width="600px" /&gt;
+]
+
+&lt;small&gt;
+* 29 teams analyzed same data to address the same question
+
+* Estimated ES ranged from 0.89 to 2.93 in OR units
+
+* 20 (69%) found significant effect, 9 teams (31%) did not 
+
+* 21 unique combinations of covariates
+
+**Significant variability in results of analyses of complex data difficult to avoid.**
+
+**➔ Even by experts with honest intentions.**
+
+***
+Silberzahn et al. 2018
+]
+
+---
+class: top, left
+### Statistics causing variability
+
+#### Statistician degrees of freedom
+
+&lt;table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; # &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Analyst degrees of freedom (Wicherts et al. 2016) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Choosing statistical models &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Effect size computation (e.g. choice of SD) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Dealing with incomplete or missing data &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Pre-processing of data (e.g., cleaning, normalization, smoothing, motion correction) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Dealing with violations of statistical assumptions &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Dealing with outliers &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Aggregation - discarding or combining levels of factors &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Inclusion of covariates, independent variables, mediators, or moderators &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Benchmarks for subject inclusion/exclusion in analyses &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimation method, software package, computation of SEs &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Inference criteria (e.g., Bayes factors, alpha level, sidedness of the test, corrections for multiple testing) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+class: top, left
+### Statistics causing variability
+
+#### Statistician degrees of freedom - Example: model selection in clinical efficacy analysis
+
+.center[
+&lt;img src="bilder/rdf_models1.png" width="900px" /&gt;
+]
+
+---
+class: top, left
+### Statistics causing variability
+
+#### Statistician degrees of freedom - Example: model selection in clinical efficacy analysis
+
+.center[
+&lt;img src="bilder/rdf_models2.png" width="900px" /&gt;
+]
+
+---
+class: top, left
+### Statistics causing variability
+
+#### Statistician degrees of freedom - Example: model selection in clinical efficacy analysis
+
+.center[
+&lt;img src="bilder/rdf_models3.png" width="900px" /&gt;
+]
+
+---
+class: top, left
+### Statistics causing variability
+
+#### Statistician degrees of freedom
+
+&lt;table class="table" style="font-size: 13px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; # &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Analyst degrees of freedom (Wicherts et al. 2016) &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Heuristic recommendation &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Choosing statistical models &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Theory-guided or by nested model comparison &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Effect size computation (e.g. choice of SD) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Raw SD or incorporate all random effects &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Dealing with incomplete or missing data &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Likelihood-based models (ML, REML, FIML), MI for cross-sectional, interpolation/kalman for TS &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Pre-processing of data (e.g., cleaning, normalization, smoothing, motion correction) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Situational; use established pipelines; preregister if possible &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Dealing with violations of statistical assumptions &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Robust inference if available; report limitations where relevant &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Dealing with outliers &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Phys./biochem. readouts; Weibull dist. for non-normal &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Aggregation - discarding or combining levels of factors &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Theory-driven or in data-driven analyses when sparsity is a factor &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Inclusion of covariates, independent variables, mediators, or moderators &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A priori or based on quantitative modification indices &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Benchmarks for subject inclusion/exclusion in analyses &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Stick to convention within field &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimation method, software package, computation of SEs &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Situational; bootstrap for unknown/unconventional distributions &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Inference criteria (e.g., Bayes factors, alpha level, sidedness of the test, corrections for multiple testing) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Report power; adjust for multiple comparisons; differentiate confirmatory vs. exploratory; avoid inflation of p-values &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+class: top, left
+### Statistics causing variability
+
+#### Statistician degrees of freedom
+
+**Problem:**
+
+* No general "best-choice" consents
+
+* Occasional recommendations based on simulation studies exist, but...
+
+  * recommendations are highly situational
+  * they rely on assumptions themselves
+  * research-philosophic questions
+
+*** 
+.pull-left[
+
+* Minimal consent:
+
+  * Preregistration (analysis plan)
+  * Open data
+  * Open materials
+]
+
+.pull-right[
+.center[
+&lt;img src="bilder/osf.jpg" width="600px" /&gt;
+]
+]
+
+---
+class: top, left
+### Statistics to control variability
+
+#### Specific vs. unspecific | fixed (covariate) vs. random effect
+
+**Fixed effect (covariate):**
+
+
+```r
+lmer(y ~ t * group + center + (t|id), data = df)
+```
+
+* will compute average estimate and variability (and p-value) for each level of confounder
+* Problematic with high number of dummy-coded levels (e.g. patients)
+
+**Random effect:**
+
+
+```r
+lmer(y ~ t * group + (t|id/center), data = df)
+```
+
+* will only compute variability in model factor across levels of confounder
+
+---
+class: top, left
+### Statistics to control variability
+
+#### Unspecific variability - Hierarchical modeling
+
+**What if variability is ignored? - Ecological interpretation error:**
+
+.pull-left[
+.center[
+&lt;img src="bilder/effect_types.png" width="400px" /&gt;
+]
+]
+
+.pull-left[
+Potential variability clusters in stimulation studies:
+
+* Patients
+* Clinicians
+* Wards
+* Centers
+* Countries
+* ...
+
+Multilevel nesting is possible:
+
+measurements in patients in centers
+
+]
+
+---
+class: top, left
+### Statistics to control variability
+
+#### Unspecific variability - Hierarchical modeling
+
+.center[
+&lt;img src="bilder/hlm1.png" width="880px" /&gt;
+]
+
+---
+class: top, left
+### Statistics to control variability
+
+#### Unspecific variability - Hierarchical modeling
+
+.center[
+&lt;img src="bilder/hlm2.png" width="880px" /&gt;
+]
+
+&lt;!-- --- --&gt;
+&lt;!-- class: top, left --&gt;
+&lt;!-- ### Parallelgruppen-Design --&gt;
+
+&lt;!-- #### Gold-Standard Wirksamkeitsanalyse (Efficacy) --&gt;
+
+&lt;!-- ```{r eval=FALSE, include=FALSE} --&gt;
+&lt;!-- n = 50 # number of individuals --&gt;
+&lt;!-- t = 1:10   # number of time periods --&gt;
+
+&lt;!-- df = expand.grid(t = 1:max(t), --&gt;
+&lt;!--                  id = 1:n) --&gt;
+&lt;!-- df$group = c(rep("active", nrow(df)/2), rep("placebo", nrow(df)/2)) --&gt;
+
+&lt;!-- trajectory = c("Linear response", --&gt;
+&lt;!--                "Deteriorate", --&gt;
+&lt;!--                "Rev. U-shape", --&gt;
+&lt;!--                "Rapid response", --&gt;
+&lt;!--                "No change") --&gt;
+
+&lt;!-- set.seed(123) --&gt;
+&lt;!-- for(ch in unique(df$id)){ --&gt;
+
+&lt;!--   if(df$group[df$id == ch][1] == "active"){ --&gt;
+&lt;!--     df$trajectory[df$id == ch] = rep(sample(trajectory, size = 1, replace = T, prob = c(.5, .05, .2, .2, .05)), max(t)) --&gt;
+&lt;!--   } --&gt;
+&lt;!--   if(df$group[df$id == ch][1] == "placebo"){ --&gt;
+&lt;!--     df$trajectory[df$id == ch] = rep(sample(trajectory, size = 1, replace = T, prob = c(.2, .2, .1, .05, .45)), max(t)) --&gt;
+&lt;!--   } --&gt;
+
+&lt;!--   if(df$trajectory[df$id == ch][1] == "No change"){ --&gt;
+&lt;!--     df$y[df$id == ch] = 24 + 0*t  + rnorm(nrow(df[df$id == ch,]), 0, 3) --&gt;
+&lt;!--   } --&gt;
+&lt;!--   if(df$trajectory[df$id == ch][1] == "Rev. U-shape"){ --&gt;
+&lt;!--     df$y[df$id == ch] = 24 + 8*t - 0.9*t^2 + rnorm(nrow(df[df$id == ch,]), 0, 3) --&gt;
+&lt;!--   } --&gt;
+&lt;!--   if(df$trajectory[df$id == ch][1] == "Linear response"){ --&gt;
+&lt;!--     df$y[df$id == ch] = 24 - 1*t  + rnorm(nrow(df[df$id == ch,]), 0, 3) --&gt;
+&lt;!--   } --&gt;
+&lt;!--   if(df$trajectory[df$id == ch][1] == "Deteriorate"){ --&gt;
+&lt;!--     df$y[df$id == ch] = 24 + 2*t  + rnorm(nrow(df[df$id == ch,]), 0, 3) --&gt;
+&lt;!--   } --&gt;
+&lt;!--   if(df$trajectory[df$id == ch][1] == "Rapid response"){ --&gt;
+&lt;!--     df$y[df$id == ch] = 24 - 10 * log(t) +  rnorm(nrow(df[df$id == ch,]), 0, 3) --&gt;
+&lt;!--   } --&gt;
+&lt;!-- } --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- .pull-left[ --&gt;
+&lt;!-- ```{r echo=F, out.width = "400px"} --&gt;
+&lt;!-- png(file = "/Users/stephangoerigk/Desktop/Figure1.png", width = 6, height = 4, units = "in", res = 300) --&gt;
+&lt;!-- ggplot(data = df, aes(x = t, y = y, colour = group)) + --&gt;
+&lt;!--   stat_summary(geom = "line", aes(group = id), alpha = .1) + --&gt;
+&lt;!--   stat_summary(geom = "line") + --&gt;
+&lt;!--   stat_summary() + --&gt;
+&lt;!--   scale_x_continuous(breaks = t) + --&gt;
+&lt;!--   coord_cartesian(ylim = c(0,30)) + --&gt;
+&lt;!--   labs(x = "Time", colour = "Group") + --&gt;
+&lt;!--   theme_classic() + --&gt;
+&lt;!--   theme(text = element_text(size = 25), legend.position = "none") --&gt;
+&lt;!-- dev.off() --&gt;
+
+&lt;!-- png(file = "/Users/stephangoerigk/Desktop/Figure2.png", width = 6, height = 4, units = "in", res = 300) --&gt;
+&lt;!-- ggplot(data = df[df$t == 1 | df$t == 10,], aes(x = t, y = y, colour = group)) + --&gt;
+&lt;!--   stat_summary(geom = "line", aes(group = id), alpha = .1) + --&gt;
+&lt;!--   stat_summary(geom = "point", fun = "mean") + --&gt;
+&lt;!--   geom_smooth(se = F, method = "lm") + --&gt;
+&lt;!--   scale_x_continuous(breaks = t) + --&gt;
+&lt;!--   coord_cartesian(ylim = c(0,30)) + --&gt;
+&lt;!--   labs(x = "Time", colour = "Group") + --&gt;
+&lt;!--   theme_classic() + --&gt;
+&lt;!--   theme(text = element_text(size = 25), legend.position = "none") --&gt;
+&lt;!-- dev.off() --&gt;
+
+&lt;!-- png(file = "/Users/stephangoerigk/Desktop/Figure3.png", width = 6, height = 4, units = "in", res = 300) --&gt;
+&lt;!-- ggplot(data = df, aes(x = t, y = y, colour = group)) + --&gt;
+&lt;!--   stat_summary(geom = "point", aes(group = id), alpha = .2, size = .5) + --&gt;
+&lt;!--   geom_segment(aes(x = 1, y = mean(df$y[df$t == 1 &amp; df$group == "active"]), xend = 1, yend = mean(df$y[df$t == 1 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 2, y = mean(df$y[df$t == 2 &amp; df$group == "active"]), xend = 2, yend = mean(df$y[df$t == 2 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 3, y = mean(df$y[df$t == 3 &amp; df$group == "active"]), xend = 3, yend = mean(df$y[df$t == 3 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 4, y = mean(df$y[df$t == 4 &amp; df$group == "active"]), xend = 4, yend = mean(df$y[df$t == 4 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 5, y = mean(df$y[df$t == 5 &amp; df$group == "active"]), xend = 5, yend = mean(df$y[df$t == 5 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 6, y = mean(df$y[df$t == 6 &amp; df$group == "active"]), xend = 6, yend = mean(df$y[df$t == 6 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 7, y = mean(df$y[df$t == 7 &amp; df$group == "active"]), xend = 7, yend = mean(df$y[df$t == 7 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 8, y = mean(df$y[df$t == 8 &amp; df$group == "active"]), xend = 8, yend = mean(df$y[df$t == 8 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 9, y = mean(df$y[df$t == 9 &amp; df$group == "active"]), xend = 9, yend = mean(df$y[df$t == 9 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   geom_segment(aes(x = 10, y = mean(df$y[df$t == 10 &amp; df$group == "active"]), xend = 10, yend = mean(df$y[df$t == 10 &amp; df$group == "placebo"])), colour = "black") + --&gt;
+&lt;!--   stat_summary(geom = "point", fun = "mean") + --&gt;
+&lt;!--   scale_x_continuous(breaks = t) + --&gt;
+&lt;!--   coord_cartesian(ylim = c(0,30)) + --&gt;
+&lt;!--   labs(x = "Time", colour = "Group") + --&gt;
+&lt;!--   theme_classic() + --&gt;
+&lt;!--   theme(text = element_text(size = 25), legend.position = "none") --&gt;
+&lt;!-- dev.off() --&gt;
+
+&lt;!-- png(file = "/Users/stephangoerigk/Desktop/Figure4.png", width = 6, height = 4, units = "in", res = 300) --&gt;
+&lt;!-- ggplot(data = df, aes(x = t, y = y, colour = group)) + --&gt;
+&lt;!--     geom_smooth(se = F, method = "lm", aes(group = id), size = .1) + --&gt;
+&lt;!--   stat_summary(geom = "point", fun = "mean") + --&gt;
+&lt;!--   geom_smooth(se = F, method = "lm") + --&gt;
+&lt;!--   scale_x_continuous(breaks = t) + --&gt;
+&lt;!--   coord_cartesian(ylim = c(0,30)) + --&gt;
+&lt;!--   labs(x = "Time", colour = "Group") + --&gt;
+&lt;!--   theme_classic() + --&gt;
+&lt;!--   theme(text = element_text(size = 25), legend.position = "none") --&gt;
+&lt;!-- dev.off() --&gt;
+
+&lt;!-- png(file = "/Users/stephangoerigk/Desktop/Figure5.png", width = 6, height = 4, units = "in", res = 300) --&gt;
+&lt;!-- ggplot(data = df, aes(x = t, y = y, colour = group)) + --&gt;
+&lt;!--     geom_smooth(se = F, method = "lm", aes(group = id), size = .1, formula = y ~ x + I(x^2)) + --&gt;
+&lt;!--   stat_summary(geom = "point", fun = "mean") + --&gt;
+&lt;!--   geom_smooth(se = F, method = "lm", formula = y ~ x + I(x^2)) + --&gt;
+&lt;!--   scale_x_continuous(breaks = t) + --&gt;
+&lt;!--   coord_cartesian(ylim = c(0,50)) + --&gt;
+&lt;!--   labs(x = "Time", colour = "Group") + --&gt;
+&lt;!--   theme_classic() + --&gt;
+&lt;!--   theme(text = element_text(size = 25), legend.position = "none") --&gt;
+&lt;!-- dev.off() --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ] --&gt;
+
+&lt;!-- .pull-right[ --&gt;
+&lt;!-- ```{r, eval=FALSE} --&gt;
+&lt;!-- lmer(y ~ t * group + (1|id), data = df) --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- * Modellierung im linear mixed model (LMM) --&gt;
+
+&lt;!-- * hierarchische Datenstruktur berücksichtigt (measurements nested within patients) --&gt;
+
+&lt;!-- * Schätzung einer Durschnittsrate (Slope) für die Response der Gruppen --&gt;
+
+&lt;!-- * Wirksamkeitsnachweis i.d.R. definiert durch Differenz in Gruppenslopes bis Endpunkt --&gt;
+&lt;!-- (Zeit x Gruppe Interaktion) --&gt;
+&lt;!-- ] --&gt;
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+
+.pull-left[
+.center[
+&lt;img src="bilder/mod3.png" width="500px" /&gt;
+]
+
+.center[
+&lt;img src="bilder/mod2.png" width="500px" /&gt;
+]
+]
+
+.pull-right[
+
+
+**Predictors and models:**
+* Adding informative predictors
+* High-performance (sparse) models
+* Modeling interactions
+* Non-linear modeling
+* Hierarchical modeling
+
+***
+
+**Outcomes:**
+* Multi-facetted outcomes
+* Dynamic outcomes
+* High-resolution outcomes (time-series)
+* Reciprocal outcomes (interactions and feedback loops)
+]
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Clinical improvement - Within-outcome clusters
+
+.pull-left[
+
+.center[
+&lt;img src="bilder/dep1.png" width="700px" /&gt;
+]
+.pull-left[
+.center[
+&lt;img src="bilder/sum.png" width="200px" /&gt;
+]
+]
+.pull-right[
+.center[
+&lt;br&gt;
+&lt;img src="bilder/gif1.gif" width="800px" /&gt;
+]
+]
+]
+
+.pull-right[
+.center[
+&lt;img src="bilder/sideeffects.png" width="400px" /&gt;
+]
+
+* Symptoms are equally weighed (𝝉-equivalent)
+
+* Ignores symptom-specific effects.
+]
+
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Clinical improvement - Within-outcome clusters
+
+.pull-left[
+.pull-left[
+.center[
+&lt;img src="bilder/sum.png" width="200px" /&gt;
+]
+.center[
+&lt;img src="bilder/symptomcluster1.png" width="200px" /&gt;
+]
+]
+.pull-right[
+.center[
+&lt;br&gt;
+&lt;img src="bilder/gif1.gif" width="800px" /&gt;
+]
+.center[
+&lt;br&gt;&lt;br&gt;
+&lt;img src="bilder/gif2.gif" width="800px" /&gt;
+]
+]
+]
+
+.pull-right[
+.center[
+&lt;img src="bilder/symptomcluster.png" width="400px" /&gt;
+]
+.center[
+&lt;img src="bilder/symptomcluster3.png" width="400px" /&gt;
+]
+]
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Clinical improvement - Within-outcome clusters (Goerigk et al., 2021)
+
+.center[
+&lt;img src="bilder/Fig1.png" width="950px" /&gt;
+]
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Between-subject variability - Response Dynamics
+
+.pull-left[
+.center[
+&lt;img src="bilder/RCT2.png" width="700px" /&gt;
+]
+]
+.pull-right[
+.center[
+&lt;img src="bilder/Timing.gif" width="700px" /&gt;
+]
+]
+
+* Calculation of responder status at **study endpoint** 
+* Ignores **early/late** response
+* Ignores individual **dynamics** of change
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Between-subject variability - Response-Trajectories: 
+
+.pull-left[
+1-Trajectory-Approach
+.center[
+&lt;img src="bilder/gif4.gif" width="250px" /&gt;
+]
+Mixture-Model
+.center[
+&lt;img src="bilder/gif5.gif" width="250px" /&gt;
+]
+]
+
+.pull-right[
+Average Trajectory
+.center[
+&lt;img src="bilder/gif1.gif" width="250px" /&gt;
+]
+Average Trajectory
+.center[
+&lt;img src="bilder/gif3.gif" width="250px" /&gt;
+]
+]
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Between-subject variability - Response-Trajectories: 
+
+.center[
+&lt;img src="bilder/traj1.png" width="800px" /&gt;
+]
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Between-subject variability - Response-Trajectories: 
+
+.center[
+&lt;img src="bilder/traj2.png" width="800px" /&gt;
+]
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Within-subject variability: 
+
+.pull-left[
+.center[
+&lt;img src="bilder/cube.png" width="450px" /&gt;
+]
+]
+.pull-right[
+.center[
+&lt;img src="bilder/dtw4 Kopie.png" width="450px" /&gt;
+]
+]
+
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Within-subject variability: Time-Series Networks (Borsboom et al. 2021)
+
+.center[
+&lt;img src="bilder/nw1.png" width="700px" /&gt;
+]
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Within-subject variability: Time-Series Networks (Borsboom et al. 2021)
+
+.center[
+&lt;img src="bilder/Figure3.png" width="900px" /&gt;
+]
+
+
+---
+class: top, left
+### Statistics to explain/understand variability
+
+#### Within-subject variability: Systems perspective (Lunansky et al. 2023)
+
+.center[
+&lt;img src="bilder/nw2.png" width="670px" /&gt;
+]
+
+---
+class: top, left
+### References
+
+&lt;small&gt;
+Borsboom, D., Deserno, M. K., Rhemtulla, M., Epskamp, S., Fried, E. I., McNally, R. J., ... &amp; Waldorp, L. J. (2021). Network analysis of multivariate data in psychological science. Nature Reviews Methods Primers, 1(1), 58.
+
+Goerigk, S. A., Padberg, F., Bühner, M., Sarubin, N., Kaster, T. S., Daskalakis, Z. J., ... &amp; Brunoni, A. R. (2021). Distinct trajectories of response to prefrontal tDCS in major depression: results from a 3-arm randomized controlled trial. Neuropsychopharmacology, 46(4), 774-782.
+
+Goerigk, S. A., Padberg, F., Chekroud, A., Kambeitz, J., Bühner, M., &amp; Brunoni, A. R. (2021). Parsing the antidepressant effects of non-invasive brain stimulation and pharmacotherapy: A symptom clustering approach on ELECT-TDCS. Brain Stimulation, 14(4), 906-912.
+
+Kaster, T. S., Downar, J., Vila-Rodriguez, F., Thorpe, K. E., Feffer, K., Noda, Y., ... &amp; Blumberger, D. M. (2019). Trajectories of response to dorsolateral prefrontal rTMS in major depression: a THREE-D study. American Journal of Psychiatry, 176(5), 367-375.
+
+Lunansky, G., van Borkulo, C. D., Blanken, T., Cramer, A., &amp; Borsboom, D. (2022). Bouncing back from life’s perturbations: Formalizing psychological resilience from a complex systems perspective.
+
+Silberzahn, R., Uhlmann, E. L., Martin, D. P., Anselmi, P., Aust, F., Awtrey, E., ... &amp; Nosek, B. A. (2018). Many analysts, one data set: Making transparent how variations in analytic choices affect results. Advances in Methods and Practices in Psychological Science, 1(3), 337-356.
+
+Wicherts, J. M., Veldkamp, C. L., Augusteijn, H. E., Bakker, M., Van Aert, R., &amp; Van Assen, M. A. (2016). Degrees of freedom in planning, running, analyzing, and reporting psychological studies: A checklist to avoid p-hacking. Frontiers in psychology, 1832.
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

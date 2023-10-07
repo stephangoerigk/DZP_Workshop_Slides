@@ -1141,6 +1141,32 @@ knitr::include_graphics("bilder/network3.png")
 
 ---
 class: top, left
+### Multivariate pattern
+
+#### Netzwerkanalyse
+
+**Beispielcode:**
+
+```{r eval=F}
+res <- mlVAR(data_detrended,
+             vars=varLabs,
+             idvar="id",
+             dayvar="day",
+             beepvar="beep",
+             lags = 1,
+             temporal = "orthogonal",
+             contemporaneous = "orthogonal",
+             nCores = 8)
+
+# Get networks:
+cont <- getNet(res, "contemporaneous", layout = "spring", nonsig = "hide", rule = "and")
+bet  <- getNet(res, "between", nonsig = "hide", rule = "and")
+temp <- getNet(res, "temporal", nonsig = "hide")
+```
+
+
+---
+class: top, left
 ### Cross-validated prediction
 
 #### Explanative vs. Prädiktive Perspektive

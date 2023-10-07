@@ -869,6 +869,33 @@ class: top, left
 
 ---
 class: top, left
+### Multivariate pattern
+
+#### Netzwerkanalyse
+
+**Beispielcode:**
+
+
+```r
+res &lt;- mlVAR(data_detrended,
+             vars=varLabs,
+             idvar="id",
+             dayvar="day",
+             beepvar="beep",
+             lags = 1,
+             temporal = "orthogonal",
+             contemporaneous = "orthogonal",
+             nCores = 8)
+
+# Get networks:
+cont &lt;- getNet(res, "contemporaneous", layout = "spring", nonsig = "hide", rule = "and")
+bet  &lt;- getNet(res, "between", nonsig = "hide", rule = "and")
+temp &lt;- getNet(res, "temporal", nonsig = "hide")
+```
+
+
+---
+class: top, left
 ### Cross-validated prediction
 
 #### Explanative vs. Prädiktive Perspektive
