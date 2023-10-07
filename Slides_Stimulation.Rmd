@@ -166,10 +166,10 @@ df = data.frame("No." = 1:11,
                   "Pre-processing of data (e.g., cleaning, normalization, smoothing, motion correction)" ,
                   "Dealing with violations of statistical assumptions",
                   "Dealing with outliers",
-                  "Aggregation - discarding or combining levels of factors",
-                  "Inclusion of covariates, independent variables, mediators, or moderators",
+                  "Discarding or combining levels of factors",
+                  "Inclusion of covariates",
                   "Benchmarks for subject inclusion/exclusion in analyses",
-                  "Estimation method, software package, computation of SEs",
+                  "Estimation method, software package",
                   "Inference criteria (e.g., Bayes factors, alpha level, sidedness of the test, corrections for multiple testing)"
 ))
 
@@ -231,10 +231,10 @@ df = data.frame("No." = 1:11,
                   "Pre-processing of data (e.g., cleaning, normalization, smoothing, motion correction)" ,
                   "Dealing with violations of statistical assumptions",
                   "Dealing with outliers",
-                  "Aggregation - discarding or combining levels of factors",
-                  "Inclusion of covariates, independent variables, mediators, or moderators",
+                  "Discarding or combining levels of factors",
+                  "Inclusion of covariates",
                   "Benchmarks for subject inclusion/exclusion in analyses",
-                  "Estimation method, software package, computation of SEs",
+                  "Estimation method, software package",
                   "Inference criteria (e.g., Bayes factors, alpha level, sidedness of the test, corrections for multiple testing)"
 ))
 
@@ -248,7 +248,7 @@ df$tip = c(
                   "Theory-driven or in data-driven analyses when sparsity is a factor",
                   "A priori or based on quantitative modification indices",
                   "Stick to convention within field",
-                  "Situational; bootstrap for unknown/unconventional distributions",
+                  "Situational",
                   "Report power; adjust for multiple comparisons; differentiate confirmatory vs. exploratory; avoid inflation of p-values"
 )
 
