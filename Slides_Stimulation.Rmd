@@ -370,6 +370,18 @@ knitr::include_graphics("bilder/hlm2.png")
 ```
 ]
 
+---
+class: top, left
+### Statistics to control variability
+
+#### Unspecific variability - What is allowed to vary?
+
+.center[
+```{r eval = TRUE, echo = F, out.width = "680px"}
+knitr::include_graphics("bilder/07_models.png")
+```
+]
+
 <!-- --- -->
 <!-- class: top, left -->
 <!-- ### Parallelgruppen-Design -->
