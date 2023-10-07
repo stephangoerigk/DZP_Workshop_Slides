@@ -244,7 +244,7 @@ df$tip = c(
                   "Likelihood-based models (ML, REML, FIML), MI for cross-sectional, interpolation/kalman for TS",
                   "Situational; use established pipelines; preregister if possible" ,
                   "Robust inference if available; report limitations where relevant",
-                  "Phys./biochem. readouts; Weibull dist. for non-normal",
+                  "Phys./biochem. readouts; Weibull dist. for non-normal outcomes",
                   "Theory-driven or in data-driven analyses when sparsity is a factor",
                   "A priori or based on quantitative modification indices",
                   "Stick to convention within field",
@@ -268,7 +268,7 @@ class: top, left
 
 * No general "best-choice" consents
 
-* Occasional recommendations based on simulation studies exist, but...
+* Occasional recommendations based on simulation studies are helpful, but...
 
   * recommendations are highly situational
   * they rely on assumptions themselves
