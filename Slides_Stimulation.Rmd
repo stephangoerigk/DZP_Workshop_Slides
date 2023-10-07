@@ -650,7 +650,7 @@ knitr::include_graphics("bilder/symptomcluster3.png")
 class: top, left
 ### Statistics to explain/understand variability
 
-#### Clinical improvement - Within-outcome clusters (Goerigk et al., 2021)
+#### Clinical improvement - Within-outcome clusters (Goerigk et al. Brain Stimulation, 2021)
 
 .center[
 ```{r eval = TRUE, echo = F, out.width = "950px"}
@@ -776,7 +776,7 @@ knitr::include_graphics("bilder/dtw4 Kopie.png")
 class: top, left
 ### Statistics to explain/understand variability
 
-#### Within-subject variability: Time-Series Networks (Borsboom et al. 2021)
+#### Within-subject variability: Time-Series Networks (Borsboom et al. Nature Reviews 2021)
 
 .center[
 ```{r eval = TRUE, echo = F, out.width = "700px"}
@@ -788,7 +788,7 @@ knitr::include_graphics("bilder/nw1.png")
 class: top, left
 ### Statistics to explain/understand variability
 
-#### Within-subject variability: Time-Series Networks (Borsboom et al. 2021)
+#### Within-subject variability: Time-Series Networks (Borsboom et al. 2021 Nature Reviews 2021)
 
 .center[
 ```{r eval = TRUE, echo = F, out.width = "900px"}
@@ -801,7 +801,7 @@ knitr::include_graphics("bilder/Figure3.png")
 class: top, left
 ### Statistics to explain/understand variability
 
-#### Within-subject variability: Systems perspective (Lunansky et al. 2023)
+#### Within-subject variability: Systems perspective (Lunansky et al. preprint 2023)
 
 .center[
 ```{r eval = TRUE, echo = F, out.width = "670px"}
