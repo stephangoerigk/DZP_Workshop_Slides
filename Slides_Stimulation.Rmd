@@ -270,9 +270,8 @@ class: top, left
 
 * Occasional recommendations based on simulation studies are helpful, but...
 
-  * recommendations are highly situational
+  * recommendations can be situational
   * they rely on assumptions themselves
-  * research-philosophic questions
 
 *** 
 .pull-left[
@@ -343,7 +342,7 @@ Potential variability clusters in stimulation studies:
 
 Multilevel nesting is possible:
 
-measurements in patients in centers
+e.g. measurements in patients in centers
 
 ]
 
